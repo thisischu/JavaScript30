@@ -48,8 +48,8 @@
     </div>
   </div>
 
-  <audio data-key="65" src="sounds/clap.wav"></audio>
-  <audio data-key="83" src="sounds/hihat.wav"></audio>
+  <audio data-key="65" src="sounds/funnycat.mp3"></audio>
+  <audio data-key="83" src="sounds/catmeow.mp3"></audio>
   <audio data-key="68" src="sounds/kick.wav"></audio>
   <audio data-key="70" src="sounds/openhat.wav"></audio>
   <audio data-key="71" src="sounds/boom.wav"></audio>
@@ -59,6 +59,25 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+ 
+function playSound(e) {
+  const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`)
+  const key = document.querySelector(`.key[data-key="${e.keyCode}"]`)
+  if(!audio) return; //stop function from running all together
+  audio.currentTime = 0; // rewind to the start
+  audio.play();
+  key.classList.add('playing')
+}
+
+function removeTransition(e) {
+  if(e.propertyName !== 'transform') return; //skip it if it is not a transition
+  this.classList.remove('playing') 
+}
+
+const keys = document.querySelectorAll(`.key`)
+
+keys.forEach(key => key.addEventListener('transitionend', removeTransition))
+window.addEventListener('keydown', playSound);
 
 </script>
 
